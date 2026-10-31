@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 
-class LeNet5(nn.Module):
+class LeNet5_C(nn.Module):
     def __init__(self):
         super().__init__()
 
