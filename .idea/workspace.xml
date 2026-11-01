@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="85bbdd4f-ce0b-4993-a16d-71d6617e8356" name="Changes" comment="" />
+    <list default="true" id="85bbdd4f-ce0b-4993-a16d-71d6617e8356" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/models/cnn/costom_vgg_10.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/cnn/vgg_16_classic.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/cnn/vgg_16_classic.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -54,6 +58,9 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\code\vision-architectures-pytorch\data\mnist" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\code\vision-architectures-pytorch\models\cnn" />
     </key>
   </component>
   <component name="RunManager">
@@ -105,7 +112,7 @@
       <updated>1793341841030</updated>
       <workItem from="1793341842074" duration="13514000" />
       <workItem from="1793414025044" duration="172000" />
-      <workItem from="1793459991421" duration="2193000" />
+      <workItem from="1793459991421" duration="7429000" />
     </task>
     <servers />
   </component>
