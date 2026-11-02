@@ -43,24 +43,33 @@ class VGG10(nn.Module):
 
         )
 
-        self.avgpool = nn.AdaptiveAvgPool2d((7, 7))
-
         inputs = self.input_size // 32
 
+        # orginal Vgg16
+        # self.classifier = nn.Sequential(
+        #     nn.Linear(512 * inputs * inputs,4096),
+        #     nn.ReLU(),
+        #     nn.Dropout(0.5),
+        #     nn.Linear(4096,4096),
+        #     nn.ReLU(),
+        #     nn.Dropout(0.5),
+        #     nn.Linear(4096,self.num_classes)
+        # )
+
+        #light Vgg16
         self.classifier = nn.Sequential(
-            nn.Linear(512* inputs * inputs,4096),
+            nn.Linear(512 * inputs * inputs,512),
             nn.ReLU(),
             nn.Dropout(0.5),
-            nn.Linear(4096,4096),
+            nn.Linear(512,256),
             nn.ReLU(),
             nn.Dropout(0.5),
-            nn.Linear(4096,self.num_classes)
+            nn.Linear(256,self.num_classes)
         )
 
 
     def forward(self, x):
         x = self.features(x)
-        x = self.avgpool(x)
         x = x.flatten(1,-1)
         x = self.classifier(x)
         return x
