@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="85bbdd4f-ce0b-4993-a16d-71d6617e8356" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/cnn/costom_vgg_10.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/cnn/costom_vgg_10.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/cnn/vgg_16_classic.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/cnn/vgg_16_classic.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,7 +111,7 @@
       <workItem from="1793341842074" duration="13514000" />
       <workItem from="1793414025044" duration="172000" />
       <workItem from="1793459991421" duration="12376000" />
-      <workItem from="1793614525424" duration="1587000" />
+      <workItem from="1793614525424" duration="3025000" />
     </task>
     <servers />
   </component>
