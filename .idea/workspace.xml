@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="85bbdd4f-ce0b-4993-a16d-71d6617e8356" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/models/cnn/KasraNet_V1_IncepNeXt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,7 +113,7 @@
       <workItem from="1793414025044" duration="172000" />
       <workItem from="1793459991421" duration="12376000" />
       <workItem from="1793614525424" duration="3814000" />
-      <workItem from="1793731232676" duration="854000" />
+      <workItem from="1793731232676" duration="1181000" />
     </task>
     <servers />
   </component>
