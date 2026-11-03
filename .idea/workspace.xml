@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="85bbdd4f-ce0b-4993-a16d-71d6617e8356" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/models/cnn/KasraNet_V1_IncepNeXt.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -45,7 +46,7 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/code/vision-architectures-pytorch/data/mnist&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/code/vision-architectures-pytorch/notebooks&quot;,
     &quot;node.js.detected.package.jshint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.jshint&quot;: &quot;&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
@@ -55,6 +56,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\code\vision-architectures-pytorch\notebooks" />
       <recent name="D:\code\vision-architectures-pytorch\data\mnist" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -111,7 +113,8 @@
       <workItem from="1793341842074" duration="13514000" />
       <workItem from="1793414025044" duration="172000" />
       <workItem from="1793459991421" duration="12376000" />
-      <workItem from="1793614525424" duration="3025000" />
+      <workItem from="1793614525424" duration="3814000" />
+      <workItem from="1793731232676" duration="854000" />
     </task>
     <servers />
   </component>
