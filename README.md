@@ -1,3 +1,5 @@
+<div align="center">
+
 # 👁️ Vision Architectures in PyTorch | معماری‌های بینایی ماشین در پایتورچ
 
 ![PyTorch](https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=for-the-badge&logo=PyTorch&logoColor=white)
@@ -6,10 +8,12 @@
 
 🌐 **[English Version](#-english-documentation)** | 🇮🇷 **[نسخه فارسی](#-مستندات-فارسی)**
 
+</div>
+
 ---
 
 <a name="-english-documentation"></a>
-## 🌐 English Documentation
+<h2 align="center">🌐 English Documentation</h2>
 
 An engineering-focused repository dedicated to implementing, modifying, and benchmarking foundational and custom Convolutional Neural Network (CNN) architectures from scratch in PyTorch. 
 
@@ -95,7 +99,7 @@ The repository includes a custom, reusable `Trainer` engine featuring:
 <div dir="rtl" align="right" style="line-height: 1.8;">
 
 <a name="-مستندات-فارسی"></a>
-## 🇮🇷 مستندات فارسی
+<h2 align="center">🇮🇷 مستندات فارسی</h2>
 
 این ریپازیتوری یک پروژه مهندسی متمرکز بر پیاده‌سازی از صفر (From Scratch)، بهینه‌سازی و بنچمارک معماری‌های پایه و سفارشی شبکه‌های عصبی پیچشی (CNN) در PyTorch است.
 
