@@ -98,9 +98,18 @@ class ResNextBaseBlock(nn.Module):
 
 
 class ResNext29(nn.Module):
-    def __init__(self,in_channels,num_classes,depth):
+    def __init__(self,in_channels,num_classes,depth ,cardinality = 2):
         super().__init__()
         num_block = (depth - 2) //9
+        self.conv1 = nn.Conv2d(in_channels,16,kernel_size=3,padding=1,bias=False)
+
+        self.stage1 = self._make_layer(ResNextBaseBlock,16,32,64,1,cardinality,num_block)
+        self.stage2 = self._make_layer(ResNextBaseBlock,32,64,128,2,cardinality,num_block)
+        self.stage3 = self._make_layer(ResNextBaseBlock,64,128,256,2,cardinality,num_block)
+        self.bn1 = nn.BatchNorm2d(128)
+        self.relu = nn.ReLU()
+        self.avgpool = nn.AdaptiveAvgPool2d((1,1))
+        self.fc = nn.Linear(128,num_classes)
 
 
 
@@ -113,5 +122,14 @@ class ResNext29(nn.Module):
 
         return nn.Sequential(*layers)
 
-    def forward(self):
-        ...
+    def forward(self,x):
+        x = self.conv1(x)
+        x = self.stage1(x)
+        x = self.stage2(x)
+        x = self.stage3(x)
+        x = self.bn1(x)
+        x = self.relu(x)
+        x = self.avgpool(x)
+        x = x.view(x.size(0),-1)
+        x = self.fc(x)
+        return x
