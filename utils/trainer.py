@@ -79,7 +79,7 @@ class Trainer:
 
         # ساخت پوشه برای ذخیره مدل‌ها در صورت نیاز
         if model_name is not None:
-            os.makedirs("../checkpoints", exist_ok=True)
+            os.makedirs("./checkpoints", exist_ok=True)
 
         for epoch in range(1, epochs + 1):
             train_loss, train_acc = self._train_epoch(train_loader)
@@ -109,7 +109,7 @@ class Trainer:
 
                 # ذخیره مدل در صورت ارسال نام مدل
                 if model_name is not None:
-                    save_path = f"../checkpoints/{model_name}.pth"
+                    save_path = f"./checkpoints/{model_name}.pth"
                     torch.save(self.model.state_dict(), save_path)
                     log_msg += f" --> (New Best! Saved to {save_path})"
 
