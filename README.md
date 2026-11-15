@@ -1,171 +1,135 @@
-<div align="center">
+# Vision Architectures in PyTorch: Modular CNNs & Controlled Benchmarks
 
-# 👁️ Vision Architectures in PyTorch | معماری‌های بینایی ماشین در پایتورچ
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.x-EE4C2C?logo=pytorch&logoColor=white)](https://pytorch.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![CUDA](https://img.shields.io/badge/Acceleration-AMP%20FP16%20%7C%20channels__last-76B900?logo=nvidia&logoColor=white)]()
+[![GitHub Repo](https://img.shields.io/badge/GitHub-mohammadrezakasra-181717?logo=github)](https://github.com/mohammadrezakasra/vision-architectures-pytorch)
 
-![PyTorch](https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=for-the-badge&logo=PyTorch&logoColor=white)
-![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
-![Computer Vision](https://img.shields.io/badge/Computer%20Vision-CNN%20Architectures-blue?style=for-the-badge)
-
-🌐 **[English Version](#-english-documentation)** | 🇮🇷 **[نسخه فارسی](#-مستندات-فارسی)**
-
-</div>
+> **Language:** [English](#1-overview) | [فارسی](#بخش-فارسی-پیادهسازی-ماژولار-و-بنچمارک-معماریهای-بینایی-ماشین-در-pytorch)
 
 ---
 
-<a name="-english-documentation"></a>
-<h2 align="center">🌐 English Documentation</h2>
+## 1. Overview
 
-An engineering-focused repository dedicated to implementing, modifying, and benchmarking foundational and custom Convolutional Neural Network (CNN) architectures from scratch in PyTorch. 
+**`vision-architectures-pytorch`** is a modular research and engineering repository implementing classical, modern, and custom convolutional neural network (CNN) architectures from scratch in PyTorch. Every study is paired with an isolated, reproducible benchmark notebook featuring unified training pipelines (`Trainer`), mixed-precision (`AMP`) acceleration, theoretical complexity profiling (`Params`, `MACs`, `FLOPs`), and hardware latency evaluations.
 
-Instead of merely importing `torchvision` models, this repository explores **why** specific architectural inductive biases work—comparing classic designs against modern adaptations through strictly controlled experiments.
+* **Detailed mathematical analyses, per-class breakdowns, and training logs are documented directly at the top of each benchmark notebook.**
 
-### 📂 Project Structure
+---
+
+## 2. Architecture Zoo (Implemented Models)
+
+> *To add a new model in the future, simply append a single row to this table.*
+
+| Model Name | Family / Paradigm | Key Architectural Features | Params (CIFAR/MNIST) | FLOPs | Best Test Acc |
+| :--- | :--- | :--- | :---: | :---: | :---: |
+| **`KasraNet-V1-IncepNeXt`** | Custom Hybrid | Multi-scale branches (`1×1`, `3×3`, `5×5`) + Grouped Conv (`C=16`) | `1.06M` | `315.33M` | **95.27%** *(CIFAR-10)* |
+| **`ResNeXt-29`** | Residual / Grouped | Aggregated residual transformations (`depth=29, C=2`) | `1.42M` | `433.77M` | **95.15%** *(CIFAR-10)* |
+| **`WideResNet-28-2`** | Wide Residual | Dense $3\times3$ convolutions with widened channels (`k=2`) | `1.47M` | `432.52M` | **94.45%** *(CIFAR-10)* |
+| **`DualBranchResNet-28`** | Lightweight Multi-Path | Parallel two-branch residual topology for high throughput | `0.74M` | `222.37M` | **94.34%** *(CIFAR-10)* |
+| **`VGG-16` (Light Head)** | Deep Homogeneous | Deep stacked $3\times3$ filters + funnel classifier for $32\times32$ inputs | — | — | **89.30%** *(CIFAR-10)* |
+| **`VGG-10` (Large Kernels)** | Custom Shallow | Early large spatial filters ($11\times11, 7\times7, 5\times5$) | — | — | **84.79%** *(CIFAR-10)* |
+| **`LeNet-5 Classic`** | Classical CNN | Explicit spatial subsampling / pooling layers | — | — | **98.84%** *(MNIST)* |
+| **`LeNet-5 Modern`** | Strided CNN | Learnable strided convolutions (`stride > 1`) replacing pooling | — | — | **98.68%** *(MNIST)* |
+
+---
+
+## 3. Benchmark Notebooks Index
+
+> *Each notebook contains comprehensive bilingual (English/Persian) documentation, experimental setups, and engineering insights.*
+
+| # | Notebook / Study | Dataset | Core Research Question | Winner & Key Takeaway |
+| :-: | :--- | :---: | :--- | :--- |
+| **01** | **`01_mnist_lenet5_classic_vs_modern.ipynb`** | `MNIST` | **Pooling vs. Strided Conv** across `SGD` & `AdamW` (synchronized initial weights) | **`LeNet-5 Classic + SGD` (98.84%)** — Pooling provides superior translation invariance; `AdamW` excels on strided landscapes. |
+| **02** | **`02_CIFAR_10_vgg10_vs_vgg16.ipynb`** | `CIFAR-10` | **Deep $3\times3$ Stacks (`VGG16`) vs. Large Kernels (`VGG10`)** ($11\times11, 7\times7, 5\times5$) | **`VGG-16` (89.30% vs. 84.79%)** — Large kernels blur fine animal textures (`cat` drops by `-19.4%`); $3\times3$ stacks boost non-linearity. |
+| **03** | **`03_CIFAR_10_resnet_resnext_kasranet.ipynb`** | `CIFAR-10` | **Multi-Scale Grouped Conv (`KasraNet-V1`) vs. `WRN-28`, `ResNeXt-29`, `DualBranch-28`** | **`KasraNet-V1` (95.27% Acc, 315M FLOPs)** — Highest accuracy with 27% fewer FLOPs; `DualBranch-28` leads GPU speed (`20,645 img/s`). |
+
+---
+
+## 4. Datasets & Preprocessing Summary
+
+| Dataset | Input Resolution | Splits (`Train / Val / Test`) | Augmentation & Regularization Pipeline |
+| :--- | :---: | :---: | :--- |
+| **MNIST** | $1 \times 28 \times 28$ | Standard Stratified Splits | Channel Normalization, Isolated Weight Cloning (`state_dict`) |
+| **CIFAR-10** | $3 \times 32 \times 32$ | `45,000 / 5,000 / 10,000` (Stratified, `seed=42`) | `RandomCrop(32, pad=4)`, `RandomHorizontalFlip`, `RandomErasing`, `LabelSmoothing(0.1)` |
+
+---
+
+## 5. Repository Structure & Quick Start
 
 ```text
 vision-architectures-pytorch/
-├── checkpoints/                          # Saved best model weights (.pth)
-├── models/
-│   └── cnn/
-│       ├── lenet5_classic.py             # Classic Pooling-based LeNet-5
-│       ├── lenet5_modern.py              # Strided-Convolution LeNet-5
-│       ├── vgg_16_classic.py             # Deep 3x3 stack VGG-16 (w/ BatchNorm & Light FC)
-│       ├── costom_vgg_10.py              # Hybrid AlexNet-VGG with large initial kernels
-│       ├── wide_resnet.py                # [Upcoming] Wide Residual Network (WRN)
-│       ├── resnext.py                    # [Upcoming] Aggregated Residual Transformations (ResNeXt)
-│       └── kasranet_v1_incepnext.py      # [Upcoming] Custom Inception-ResNeXt Hybrid
-├── notebooks/
-│   ├── 01_mnist_lenet5_classic_vs_modern.ipynb
-│   ├── 02_CIFAR_10_vgg10_vs_vgg16.ipynb
-│   └── 03_CIFAR_10_wide_resnet_vs_resnext.ipynb  # [Upcoming] Width vs. Cardinality
-├── utils/
-│   └── trainer.py                        # Modular training, validation & checkpoint engine
-└── README.md
+├── models/                  # Modular PyTorch architecture definitions (LeNet, VGG, ResNet, KasraNet, etc.)
+├── utils/                   # Unified Trainer class (AMP, CosineAnnealingLR, checkpointing) & dataset loaders
+├── notebooks/               # Self-contained bilingual benchmark notebooks (01, 02, 03, ...)
+└── README.md                # High-level project index and summary tables
 ```
 
-### 🧠 Implemented & Planned Architectures (`models/cnn/`)
+### Quick Usage
 
-| Model File | Class Name | Key Architectural Characteristics |
-| :--- | :--- | :--- |
-| `lenet5_classic.py` | `LeNet5Classic` | Traditional architecture utilizing spatial pooling layers for translation invariance. |
-| `lenet5_modern.py` | `LeNet5Modern` | Replaces explicit pooling layers with learnable **Strided Convolutions** for spatial downsampling. |
-| `vgg_16_classic.py` | `VGG16` | Pure 3x3 deep convolutional stack enhanced with `BatchNorm2d` and a custom **Light Funnel Classifier** (`512 -> 256 -> num_classes`) to prevent overfitting on low-resolution datasets[cite: 1]. |
-| `costom_vgg_10.py` | `VGG10` | Experimental hybrid combining **AlexNet-style large kernels** (11x11, 7x7, 5x5) in early stages with VGG-style 3x3 blocks in deeper stages[cite: 1]. |
-| `wide_resnet.py` | `WideResNet` | *(In Progress)* Explores scaling network **width** (channel multiplier $k$) over extreme depth to improve feature reuse and GPU parallel efficiency. |
-| `resnext.py` | `ResNeXt` | *(In Progress)* Introduces **Cardinality** (grouped convolutions) in residual bottlenecks, proving that increasing parallel pathways is more effective than going deeper or wider. |
-| `kasranet_v1_incepnext.py` | `KasraNet_V1_IncepNeXt` | *(Planned)* First generation of the custom `KasraNet` family, synthesizing insights from WRN and ResNeXt with multi-scale **Inception** branches. |
-
-### 📊 Experimental Benchmarks & Notebooks
-
-#### 1️⃣ Experiment 01: Pooling vs. Strided Convolutions & Optimizer Dynamics
-* **Notebook:** `01_mnist_lenet5_classic_vs_modern.ipynb`
-* **Dataset:** MNIST (28x28 Grayscale)
-* **Experimental Control:** Identical weight initialization (`state_dict` synchronization) across all 4 runs for 50 epochs.
-
-| Architecture | Optimizer | Test Accuracy | Key Takeaway |
-| :--- | :---: | :---: | :--- |
-| **LeNet-5 Classic** | **SGD** | **98.84%** | **Winner:** Flat minima via SGD + strong inductive bias of explicit Pooling. |
-| LeNet-5 Classic | AdamW | 98.81% | Fast initial convergence, slightly sharper minima than SGD. |
-| LeNet-5 Modern | AdamW | 98.68% | Adaptive learning rates handle the complex loss landscape of strided convs better. |
-| LeNet-5 Modern | SGD | 98.56% | Struggles to optimize strided filters without adaptive momentum. |
-
-#### 2️⃣ Experiment 02: Small Deep Filter Stacks vs. Large Early Kernels
-* **Notebook:** `02_CIFAR_10_vgg10_vs_vgg16.ipynb`
-* **Dataset:** CIFAR-10 (32x32 RGB) with stratified 90/10 Train-Validation split and Data Augmentation (`RandomCrop`, `RandomHorizontalFlip`, `ColorJitter`)[cite: 1].
-* **Experimental Goal:** Empirically test the core VGG hypothesis—whether stacked 3x3 filters outperform fewer layers with large receptive fields (11x11, 7x7, 5x5).
-
-| Metric / Class | VGG16 (3x3 Deep Stack) | VGG10 (Large Kernels) | Delta (Δ) |
-| :--- | :---: | :---: | :---: |
-| **Overall Test Accuracy** | **89.30%** | **84.79%** | **+4.51%** |
-| **Test Loss** | **0.4219** | **0.5750** | **-0.1531** |
-| **Rigid Objects** (e.g., *Car / Ship*) | 94.70% / 94.70% | 93.80% / 91.80% | High performance on both |
-| **Deformable** (*Cat*) | **85.30%** | **65.90%** | **+19.40%** |
-| **Deformable** (*Bird*) | **83.90%** | **75.50%** | **+8.40%** |
-
-##### 💡 Key Engineering Insights from Experiment 02:
-1. **High-Frequency Texture Destruction:** While `VGG10` performs well on rigid geometric vehicles (*plane*: 94.00%, *car*: 93.80%), it suffers a catastrophic drop on deformable animals (*cat* drops by **19.4%**). Applying an 11x11 filter on a tiny 32x32 image acts as a destructive low-pass filter, wiping out fine-grained fur and facial textures in the very first layer.
-2. **Non-Linearity Density:** Three stacked 3x3 layers cover the same 7x7 receptive field as a single 7x7 layer, but pass the feature maps through **three `ReLU` activations** instead of one, vastly improving decision boundary expressiveness while requiring fewer parameters.
-3. **Funnel Classifier Regularization:** Replacing the original 4096-dim VGG linear layers with a compact bottleneck (`512 -> 256 -> 10`) paired with `Dropout(0.5)` and `BatchNorm2d` curbed the generalization gap from ~15% down to ~8%.
-
-### 🛠️ Training Pipeline & Utilities (`utils/trainer.py`)
-The repository includes a custom, reusable `Trainer` engine featuring:
-* Automated training and validation loops[cite: 1].
-* Stratified validation set evaluation without data augmentation leakage[cite: 1].
-* Automatic best-checkpoint serialization (`checkpoints/<model_name>.pth`) based on validation accuracy[cite: 1].
-* Per-class accuracy breakdown for granular error analysis[cite: 1].
-
-### 🚀 Roadmap: From Residual Foundations to the `KasraNet` Family
-- [x] **Phase 1:** Classic & Modernized Baselines (`LeNet-5`, `VGG16`, `VGG10`)[cite: 1]
-- [ ] **Phase 2:** **Width vs. Cardinality** — Implementing and benchmarking `WideResNet` against `ResNeXt` to isolate the impact of channel width vs. grouped multi-branching before hybridization.
-- [ ] **Phase 3:** `KasraNet_V1_IncepNeXt` — Custom hybrid combining Inception multi-scale branching, ResNeXt grouped convolutions, and ResNet residual connections.
-- [ ] **Phase 4:** `KasraNet_V2_SEMobile` — Lightweight architecture combining Depthwise Separable Convolutions (MobileNet) with Squeeze-and-Excitation (SENet) channel attention.
+```bash
+git clone [https://github.com/mohammadrezakasra/vision-architectures-pytorch.git](https://github.com/mohammadrezakasra/vision-architectures-pytorch.git)
+cd vision-architectures-pytorch
+pip install torch torchvision thop pandas scikit-learn
+```
 
 ---
 ---
 
 <div dir="rtl" align="right" style="line-height: 1.8;">
 
-<a name="-مستندات-فارسی"></a>
-<h2 align="center">🇮🇷 مستندات فارسی</h2>
+# بخش فارسی: پیاده‌سازی ماژولار و بنچمارک معماری‌های بینایی ماشین در PyTorch
 
-این ریپازیتوری یک پروژه مهندسی متمرکز بر پیاده‌سازی از صفر (From Scratch)، بهینه‌سازی و بنچمارک معماری‌های پایه و سفارشی شبکه‌های عصبی پیچشی (CNN) در PyTorch است.
+## ۱. معرفی مخزن
 
-به‌جای استفاده آماده از مدل‌های `torchvision`، هدف اصلی این پروژه بررسی عمیق و تجربی **چرایی** عملکرد سوگیری‌های استقرایی (Inductive Biases) در معماری‌های مختلف است؛ به‌طوری که طراحی‌های کلاسیک در شرایط کاملاً کنترل‌شده و ایزوله با اقتباس‌های مدرن مقایسه می‌شوند.
+مخزن **`vision-architectures-pytorch`** یک چارچوب مهندسی و پژوهشی ماژولار برای پیاده‌سازی از پایه‌ی معماری‌های کلاسیک، مدرن و اختصاصی شبکه‌های عصبی کانولوشنی (CNN) در PyTorch است. هدف این پروژه، مقایسه کاملاً عادلانه و کنترل‌شده‌ی معماری‌ها تحت پایپ‌لاین آموزش یکپارچه (`Trainer`)، شتاب‌دهی سخت‌افزاری (`AMP FP16` و `channels_last`)، پروفایلینگ پیچیدگی محاسباتی (`Params`، `MACs`، `FLOPs`) و زمان‌سنجی واقعی روی GPU است.
 
-### 🧠 معماری‌های پیاده‌سازی‌شده و در دست توسعه (`models/cnn/`)
+* **توضیحات تفصیلی، تحلیل‌های ریاضی و جداول کامل هر آزمایش در ابتدای نوت‌بوک مربوطه مستندسازی شده‌اند.**
 
-| فایل مدل | نام کلاس | ویژگی‌های کلیدی معماری |
-| :--- | :--- | :--- |
-| `lenet5_classic.py` | `LeNet5Classic` | معماری سنتی مبتنی بر لایه‌های Pooling صریح برای ایجاد تغییرناپذیری انتقالی (Translation Invariance). |
-| `lenet5_modern.py` | `LeNet5Modern` | حذف لایه‌های Pooling و جایگزینی آن‌ها با **کانولوشن‌های گام‌دار (Strided Convolutions)** قابل یادگیری جهت کاهش ابعاد مکانی. |
-| `vgg_16_classic.py` | `VGG16` | پشته عمیق و خالص از فیلترهای 3x3 مجهز به `BatchNorm2d` و یک **طبقه‌بند قیفی سبک (Light Funnel Classifier)** با ساختار `512 -> 256 -> num_classes` برای جلوگیری از بیش‌برازش در رزولوشن‌های پایین[cite: 1]. |
-| `costom_vgg_10.py` | `VGG10` | مدل هیبریدی آزمایشی با ترکیب **هسته‌های بزرگ به سبک AlexNet** (ابعاد 11x11، 7x7 و 5x5) در لایه‌های ابتدایی و بلوک‌های 3x3 به سبک VGG در لایه‌های عمیق‌تر[cite: 1]. |
-| `wide_resnet.py` | `WideResNet` | *(در دست توسعه)* بررسی افزایش **عرض شبکه (Width)** به جای عمق بیش از حد، جهت بهبود بازاستفاده از ویژگی‌ها و افزایش بهره‌وری پردازش موازی در GPU. |
-| `resnext.py` | `ResNeXt` | *(در دست توسعه)* معرفی مفهوم **Cardinality** (کانولوشن‌های گروهی در بلوک‌های Residual) و اثبات برتری افزایش مسیرهای موازی نسبت به افزایش صرفِ عمق یا عرض. |
-| `kasranet_v1_incepnext.py` | `KasraNet_V1_IncepNeXt` | *(برنامه‌ریزی‌شده)* نسل اول خانواده مدل‌های اختصاصی `KasraNet`؛ سنتز یافته‌های حاصل از مقایسه WRN و ResNeXt در ترکیب با شاخه‌های چندمقیاسی **Inception**. |
+---
 
-### 📊 بنچمارک‌ها و آزمایش‌های تجربی (Notebooks)
+## ۲. بانک معماری‌ها (Architecture Zoo)
 
-#### 1️⃣ آزمایش اول: تقابل Pooling و Strided Convolution در کنار دینامیک بهینه‌سازها
-* **نوت‌بوک:** `01_mnist_lenet5_classic_vs_modern.ipynb`
-* **دیتاست:** MNIST (تصاویر خاکستری 28x28)
-* **کنترل آزمایش:** یکسان‌سازی کامل وزن‌های اولیه (`state_dict`) در هر 4 مدل و آموزش به مدت 50 اپوک.
+> *ساختار منعطف: برای افزودن مدل‌های جدید در آینده، کافی است تنها یک سطر جدید به این جدول اضافه کنید.*
 
-| معماری | بهینه‌ساز | دقت تست (Test Acc) | دستاورد و تحلیل کلیدی |
+| نام مدل | خانواده / پارادایم طراحی | ویژگی کلیدی معماری | پارامترها | FLOPs | بهترین دقت تست (Test Acc) |
+| :--- | :--- | :--- | :---: | :---: | :---: |
+| **`KasraNet-V1-IncepNeXt`** | معماری ترکیبی اختصاصی | شاخه‌های چندمقیاسی (`1×1`, `3×3`, `5×5`) + کانولوشن گروهی (`C=16`) | `1.06M` | `315.33M` | **95.27%** *(CIFAR-10)* |
+| **`ResNeXt-29`** | باقیمانده تجمیعی | تبدیل‌های باقیمانده گروهی (`depth=29, C=2`) | `1.42M` | `433.77M` | **95.15%** *(CIFAR-10)* |
+| **`WideResNet-28-2`** | باقیمانده عریض | کانولوشن‌های متراکم $3\times3$ با دو برابر شدن عرض کانال‌ها | `1.47M` | `432.52M` | **94.45%** *(CIFAR-10)* |
+| **`DualBranchResNet-28`** | چندمسیره سبک‌وزن | معماری دو شاخه‌ای موازی با تمرکز بر سرعت استنتاج بالا | `0.74M` | `222.37M` | **94.34%** *(CIFAR-10)* |
+| **`VGG-16` (Light Head)** | عمیق همگن | پشته عمیق فیلترهای $3\times3$ + طبقه‌بند قیفی سبک برای ابعاد $32\times32$ | — | — | **89.30%** *(CIFAR-10)* |
+| **`VGG-10` (Large Kernels)** | کم‌عمق با هسته بزرگ | استفاده از فیلترهای بزرگ ($11\times11, 7\times7, 5\times5$) در لایه‌های ابتدایی | — | — | **84.79%** *(CIFAR-10)* |
+| **`LeNet-5 Classic`** | کلاسیک | کاهش ابعاد مکانی با لایه‌های صریح `Pooling` | — | — | **98.84%** *(MNIST)* |
+| **`LeNet-5 Modern`** | کانولوشن گام‌دار | جایگزینی لایه‌های Pooling با کانولوشن‌های یادگیرنده گام‌دار (`Stride > 1`) | — | — | **98.68%** *(MNIST)* |
+
+---
+
+## ۳. فهرست نوت‌بوک‌های بنچمارک (Benchmark Index)
+
+> *هر نوت‌بوک دارای مستندات کامل دوزبانه در سلول ابتدایی خود است.*
+
+| شماره | نام نوت‌بوک | دیتاست | محور اصلی آزمایش | برنده و نتیجه کلیدی |
+| :-: | :--- | :---: | :--- | :--- |
+| **01** | **`01_mnist_lenet5_classic_vs_modern.ipynb`** | `MNIST` | تقابل **Pooling و Strided Conv** تحت بهینه‌سازهای `SGD` و `AdamW` با وزن اولیه یکسان | **`LeNet-5 Classic + SGD` (98.84%)** — برتری کمینه‌های هموار در SGD و کارایی بالاتر AdamW در فضای ناهموار مدل استرایدی. |
+| **02** | **`02_CIFAR_10_vgg10_vs_vgg16.ipynb`** | `CIFAR-10` | تقابل **پشته‌های عمیق $3\times3$ (`VGG16`) و فیلترهای بزرگ (`VGG10`)** به تفکیک کلاس‌ها | **`VGG-16` (89.30% در برابر 84.79%)** — تخریب بافت‌های ظریف حیوانات توسط فیلترهای بزرگ (سقوط ۱۹.۴٪ در کلاس گربه). |
+| **03** | **`03_CIFAR_10_resnet_resnext_kasranet.ipynb`** | `CIFAR-10` | بنچمارک **`KasraNet-V1`** در برابر **`WRN-28`، `ResNeXt-29` و `DualBranch-28`** (دقت، FLOPs و تأخیر GPU) | **`KasraNet-V1` (95.27% دقت با ۲۷٪ محاسبات کمتر)** — بالاترین دقت و کمترین خطا؛ پیشتازی `DualBranch` در سرعت (`20,645 img/s`). |
+
+---
+
+## ۴. خلاصه دیتاست‌ها و پایپ‌لاین داده
+
+| دیتاست | ابعاد ورودی | تقسیم‌بندی (`Train / Val / Test`) | تکنیک‌های افزونه‌سازی و منظم‌سازی (Regularization) |
 | :--- | :---: | :---: | :--- |
-| **LeNet-5 Classic** | **SGD** | **98.84%** | **برنده:** نشستن در کمینه‌های هموار (Flat Minima) توسط SGD + سوگیری استقرایی قوی لایه Pooling. |
-| LeNet-5 Classic | AdamW | 98.81% | همگرایی اولیه سریع‌تر، اما متوقف شدن در کمینه‌های تیزتر نسبت به SGD. |
-| LeNet-5 Modern | AdamW | 98.68% | نرخ یادگیری تطبیقی، فضای بهینه‌سازیِ پیچیده حاصل از کانولوشن‌های گام‌دار را بهتر مدیریت می‌کند. |
-| LeNet-5 Modern | SGD | 98.56% | دشواری در بهینه‌سازی فیلترهای Strided بدون مومنتوم تطبیقی. |
+| **MNIST** | $1 \times 28 \times 28$ | تقسیم‌بندی استاندارد | نرمال‌سازی کانال‌ها، همگام‌سازی وزن‌های اولیه با `state_dict` |
+| **CIFAR-10** | $3 \times 32 \times 32$ | `45,000 / 5,000 / 10,000` (لایه‌ای با `seed=42`) | `RandomCrop(32, pad=4)`, `RandomHorizontalFlip`, `RandomErasing`, `LabelSmoothing(0.1)` |
 
-#### 2️⃣ آزمایش دوم: پشته‌های عمیق با فیلترهای کوچک در برابر فیلترهای بزرگ ابتدایی
-* **نوت‌بوک:** `02_CIFAR_10_vgg10_vs_vgg16.ipynb`
-* **دیتاست:** CIFAR-10 (تصاویر رنگی 32x32) به همراه جداسازی اصولی و Stratified داده‌های اعتبارسنجی (90/10) و اعمال Data Augmentation (`RandomCrop`, `RandomHorizontalFlip`, `ColorJitter`)[cite: 1].
-* **هدف آزمایش:** ارزیابی تجربی فرضیه اصلی مقاله VGG — آیا پشته‌ای از فیلترهای کوچک 3x3 عملکرد بهتری نسبت به لایه‌های کمتر با میدان دید بزرگ (11x11، 7x7 و 5x5) دارد؟
+---
 
-| معیار / کلاس | VGG16 (پشته عمیق 3x3) | VGG10 (هسته‌های بزرگ) | اختلاف (Δ) |
-| :--- | :---: | :---: | :---: |
-| **دقت کل تست (Overall Acc)** | **89.30%** | **84.79%** | **+4.51%** |
-| **خطای تست (Test Loss)** | **0.4219** | **0.5750** | **-0.1531** |
-| **اشیای صلب** (*ماشین / کشتی*) | 94.70% / 94.70% | 93.80% / 91.80% | عملکرد بالا در هر دو مدل |
-| **اشیای منعطف** (*گربه - Cat*) | **85.30%** | **65.90%** | **+19.40%** |
-| **اشیای منعطف** (*پرنده - Bird*) | **83.90%** | **75.50%** | **+8.40%** |
+## ۵. الگوی توسعه برای افزودن مدل‌ها یا نوت‌بوک‌های آینده
 
-##### 💡 استنتاج‌های مهندسی از آزمایش دوم:
-1. **تخریب بافت‌های فرکانس بالا توسط فیلترهای بزرگ:** در حالی که `VGG10` روی وسایل نقلیه با هندسه صلب عملکرد خوبی دارد (هواپیما: 94.00%، ماشین: 93.80%)، در تشخیص حیوانات که دارای بافت‌های ظریف و شکل منعطف هستند دچار سقوط آزاد می‌شود (افت **19.4 درصدی** در کلاس گربه). اعمال فیلتر 11x11 روی تصویر کوچک 32x32 مانند یک فیلتر پایین‌گذر مخرب عمل کرده و جزئیات ظریف صورت و موی حیوانات را در همان لایه اول محو می‌کند.
-2. **چگالی توابع غیرخطی (Non-Linearity Density):** سه لایه متوالی 3x3 دقیقاً میدان دیدی معادل یک لایه 7x7 ایجاد می‌کنند، اما نگاشت‌های ویژگی را از **سه تابع فعال‌ساز `ReLU`** عبور می‌دهند (به‌جای یک تابع در حالت 7x7)؛ این امر قدرت تفکیک‌پذیری مرزهای تصمیم‌گیری را با مصرف پارامترهای کمتر به شدت ارتقا می‌دهد.
-3. **تنظیم‌کنندگی طبقه‌بند قیفی (Funnel Classifier Regularization):** جایگزینی لایه‌های سنگین 4096 تایی VGG با یک گلوگاه فشرده (`512 -> 256 -> 10`) در کنار `Dropout(0.5)` و `BatchNorm2d`، شکاف بیش‌برازش (Generalization Gap) را از حدود 15% به حدود 8% کاهش داد.
-
-### 🛠️ پایپ‌لاین آموزش و ابزارها (`utils/trainer.py`)
-این پروژه شامل یک موتور آموزش ماژولار و قابل استفاده مجدد (`Trainer`) با قابلیت‌های زیر است:
-* حلقه‌های خودکار آموزش (Train) و اعتبارسنجی (Validation)[cite: 1].
-* ارزیابی ایزوله روی داده‌های Validation بدون نشت تغییرات Data Augmentation[cite: 1].
-* ذخیره‌سازی خودکار بهترین وزن‌های مدل (`checkpoints/<model_name>.pth`) بر مبنای بالاترین دقت اعتبارسنجی[cite: 1].
-* گزارش‌گیری تفکیک‌شده دقت برای تک‌تک کلاس‌ها جهت تحلیل دقیق خطاها[cite: 1].
-
-### 🚀 نقشه راه: از پایه‌های Residual تا خانواده مدل‌های `KasraNet`
-- [x] **فاز ۱:** پیاده‌سازی و بنچمارک مدل‌های پایه کلاسیک و مدرن (`LeNet-5`, `VGG16`, `VGG10`)[cite: 1]
-- [ ] **فاز ۲:** **تقابل عرض (Width) و چندمسیره بودن (Cardinality)** — پیاده‌سازی و مقایسه مستقیم `WideResNet` و `ResNeXt` جهت درک دقیق تفاوت افزایش ظرفیت کانال‌ها در برابر کانولوشن‌های گروهی، پیش از طراحی مدل هیبریدی.
-- [ ] **فاز ۳:** معماری `KasraNet_V1_IncepNeXt` — مدل هیبریدی سفارشی با ترکیب شاخه‌های موازی چندمقیاسی Inception، کانولوشن‌های گروهی ResNeXt و اتصالات میان‌بر ResNet.
-- [ ] **فاز ۴:** معماری `KasraNet_V2_SEMobile` — شبکه سبک‌وزن با ترکیب کانولوشن‌های تفکیک‌پذیر عمقی (MobileNet) و مکانیزم توجه کانالی (Squeeze-and-Excitation).
+برای حفظ یکپارچگی مخزن در آزمایش‌های بعدی:
+1. کد معماری جدید را در پوشه `models/` قرار دهید و تنها **یک ردیف با مشخصات اصلی** (`Params`, `FLOPs`, `Test Acc`) به جدول **بخش ۲** اضافه کنید.
+2. مستندات و تحلیل‌های تفصیلی را در سلول اول نوت‌بوک جدید بنویسید و **یک ردیف خلاصه** به جدول **بخش ۳** در همین فایل `README.md` بیفزایید.
 
 </div>
