@@ -1,11 +1,31 @@
-# Vision Architectures in PyTorch: Modular CNNs & Controlled Benchmarks
+<div align="center">
 
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.x-EE4C2C?logo=pytorch&logoColor=white)](https://pytorch.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![CUDA](https://img.shields.io/badge/Acceleration-AMP%20FP16%20%7C%20channels__last-76B900?logo=nvidia&logoColor=white)]()
-[![GitHub Repo](https://img.shields.io/badge/GitHub-mohammadrezakasra-181717?logo=github)](https://github.com/mohammadrezakasra/vision-architectures-pytorch)
+# 🧠 Vision Architectures in PyTorch
+### Modular CNN Implementations, Controlled Empirical Benchmarks & Hardware-Aware Profiling
 
-> **Language:** [English](#1-overview) | [فارسی](#بخش-فارسی-پیادهسازی-ماژولار-و-بنچمارک-معماریهای-بینایی-ماشین-در-pytorch)
+<p>
+  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.10%2B-F59E0B?style=for-the-badge&logo=python&logoColor=white&labelColor=2563EB" alt="Python"></a>
+  &nbsp;&nbsp;
+  <a href="https://pytorch.org/"><img src="https://img.shields.io/badge/PyTorch-2.x-F97316?style=for-the-badge&logo=pytorch&logoColor=white&labelColor=DC2626" alt="PyTorch"></a>
+  &nbsp;&nbsp;
+  <a href="https://jupyter.org/"><img src="https://img.shields.io/badge/Notebooks-Jupyter-EC4899?style=for-the-badge&logo=jupyter&logoColor=white&labelColor=7C3AED" alt="Jupyter"></a>
+</p>
+
+<p>
+  <a href="https://github.com/mohammadrezakasra/vision-architectures-pytorch/commits/main"><img src="https://img.shields.io/github/last-commit/mohammadrezakasra/vision-architectures-pytorch?style=for-the-badge&logo=github&logoColor=white&labelColor=0D9488&color=10B981" alt="Last Commit"></a>
+  &nbsp;&nbsp;
+  <a href="https://github.com/mohammadrezakasra/vision-architectures-pytorch"><img src="https://img.shields.io/github/repo-size/mohammadrezakasra/vision-architectures-pytorch?style=for-the-badge&logo=files&logoColor=white&labelColor=6366F1&color=06B6D4" alt="Repo Size"></a>
+  &nbsp;&nbsp;
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-22C55E?style=for-the-badge&logo=opensourceinitiative&logoColor=white&labelColor=0284C7" alt="License"></a>
+</p>
+
+<p>
+  <strong>🌐 Language:</strong>
+  <a href="#1-overview">English</a> •
+  <a href="#بخش-فارسی-پیادهسازی-ماژولار-و-بنچمارک-معماریهای-بینایی-ماشین-در-pytorch">فارسی</a>
+</p>
+
+</div>
 
 ---
 
