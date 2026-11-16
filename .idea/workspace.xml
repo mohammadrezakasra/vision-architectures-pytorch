@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="85bbdd4f-ce0b-4993-a16d-71d6617e8356" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/notebooks/04_CASSAVA_LEAF_kasranet_v1_vs_resnext29.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notebooks/01_mnist_lenet5_classic_vs_modern.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/01_mnist_lenet5_classic_vs_modern.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notebooks/02_CIFAR_10_vgg10_vs_vgg16.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/02_CIFAR_10_vgg10_vs_vgg16.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,8 +16,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Jupyter Notebook" />
         <option value="Python Script" />
+        <option value="Jupyter Notebook" />
       </list>
     </option>
   </component>
@@ -174,7 +173,11 @@
       <workItem from="1794420812495" duration="8281000" />
       <workItem from="1794456337511" duration="19112000" />
       <workItem from="1794651660957" duration="10495000" />
-      <workItem from="1794708458790" duration="4769000" />
+      <workItem from="1794708458790" duration="5104000" />
+      <workItem from="1794797809670" duration="2000" />
+      <workItem from="1794809925245" duration="4487000" />
+      <workItem from="1794842353996" duration="14000" />
+      <workItem from="1794849096540" duration="2351000" />
     </task>
     <servers />
   </component>
